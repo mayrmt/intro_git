@@ -1,0 +1,14 @@
+.DS_Store
+*.aux
+*.auxlock
+*.bbl
+*.blg
+*-blx.bib
+*.log
+*.nav
+*.out
+*.snm
+*.synctex.gz
+*.toc
+
+*-eps-converted-to.pdf
