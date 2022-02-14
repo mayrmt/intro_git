@@ -1,0 +1,414 @@
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Packages
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage[none]{hyphenat}
+
+\usepackage{totcount}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage{sourceserifpro}
+\usepackage[osf]{sourcesanspro}
+\usepackage{sourcecodepro}
+
+\usepackage{lmodern}
+
+%\usepackage[scaled=0.92]{FiraSans}
+%\usepackage[scaled=1.08]{newtxsf}
+%\usepackage{mdsymbol}
+
+
+\newcommand\insertevent{}  % Empty by default.
+\newcommand\event[1]{\renewcommand\insertevent{#1}}
+
+\newcommand\inserteventdetails{}  % Empty by default.
+\newcommand\eventdetails[1]{\renewcommand\inserteventdetails{#1}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% define colors
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{unibwGr}{RGB}{113,112,114}
+\definecolor{unibwOr}{RGB}{238,114,3}
+\definecolor{TUMdarkblue}{rgb}{0,0.32,0.57} % changed this
+\definecolor{TUMblue}{rgb}{0,0.4,0.74} % changed this
+\definecolor{myDarkBlue}{HTML}{060093}
+\definecolor{myDarkGreen}{HTML}{43972A}
+
+% set main colors for theme
+\definecolor{colorMain}{named}{unibwOr}
+\definecolor{colorSec}{named}{unibwGr}
+\definecolor{colorTert}{named}{TUMblue}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% define font shapes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setbeamerfont{title}{size=\Large,series=\bfseries}
+\setbeamerfont{frametitle}{size=\Large,series=\mdseries}
+\setbeamerfont{framesubtitle}{size=\large,series=\mdseries}
+\setbeamerfont{footline}{size=\tiny,series=\mdseries}
+\setbeamerfont{author}{size=\normalsize,series=\bfseries}
+\setbeamerfont{institute}{size=\scriptsize,series=\mdseries}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% define font colors
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setbeamercolor{title}{fg=white}
+\setbeamercolor{subtitle}{fg=white}
+\setbeamercolor{author}{fg=white}
+\setbeamercolor{institute}{fg=white}
+
+\setbeamercolor{frametitle}{fg=white}
+\setbeamercolor{normal text}{fg=black,bg=white}
+\setbeamercolor{alerted text}{fg=red}
+\setbeamercolor{example text}{fg=unibwGr}
+\setbeamercolor{footline}{fg=white}
+
+\setbeamercolor{structure}{fg=unibwOr}
+
+\setbeamercolor{background canvas}{parent=normal text}
+\setbeamercolor{background}{parent=background canvas}
+
+\setbeamercolor{palette primary}{fg=unibwOr,bg=white} % changed this
+\setbeamercolor{palette secondary}{use=structure,fg=structure.fg!100!orange} % changed this
+\setbeamercolor{palette tertiary}{use=structure,fg=structure.fg!100!orange} % changed this
+
+\setbeamercolor{itemize item}{fg=colorMain}
+\setbeamercolor{itemize subitem}{fg=colorSec}
+
+\setbeamercolor{block title}{fg=white,bg=unibwOr}
+\setbeamercolor{block body}{parent=normal text,bg=unibwOr!20!white}
+\setbeamerfont{block title}{series=\bfseries,size=\small}
+\setbeamercolor{block title alerted}{fg=white,bg=red}
+\setbeamercolor{block body alerted}{parent=normal text,bg=red!20!white}
+\setbeamerfont{block title alerted}{series=\bfseries,size=\small}
+\setbeamercolor{block title example}{fg=white,bg=unibwOr}
+\setbeamercolor{block body example}{parent=normal text,bg=unibwGr!20!white}
+\setbeamerfont{block title example}{series=\bfseries,size=\small}
+
+\setbeamercolor{author in head/foot}{fg=white}
+\setbeamercolor{date in head/foot}{fg=white}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% rest of theme
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%
+%% modify TOC
+\setbeamertemplate{section in toc}{\indent\llap{\color{colorSec}{\inserttocsectionnumber.}} \usebeamercolor{normal text}\inserttocsection}
+\setbeamertemplate{subsection in toc}{\color{colorSec}\hspace{2em}\footnotesize\inserttocsubsection}
+
+%%
+%% uservariables
+
+% textmargin
+\newdimen\textmargin
+
+% variables for fontheight (used in TikZ)
+\newdimen\extitle
+\newdimen\exframetitle
+\newdimen\exsubtitle
+\newdimen\exfoot
+
+% variables for geometry
+\newdimen\titleheight % height of the title information bar
+\newdimen\frametitleheight % height of the frame title information bar
+\newdimen\footbarheight % height of the bottom information bar
+\newdimen\progheight % height of the progress bar
+\newdimen\progressbarwidth % progressbar width
+\newdimen\secbarinc % section bar increment
+\newdimen\secbarspace % space between section bars
+
+\newdimen\slidewidth % auxiliary dimension
+\newdimen\slideheight % auxiliary dimension
+
+\newdimen\temp % temporary variable
+
+% set fontheight
+\usebeamerfont{title} \extitle=1em
+\usebeamerfont{frametitle} \exframetitle=1em
+\usebeamerfont{framesubtitle} \exsubtitle=1em
+\usebeamerfont{footline} \exfoot=1ex
+
+% set geometryvalues
+\titleheight=1.8\extitle
+\frametitleheight=1.8\exframetitle
+\footbarheight=3.5\exfoot
+\progheight=0.5\exfoot
+
+\slidewidth=\the\paperwidth
+\slideheight=\the\paperheight
+
+%% 
+%% disable "Figure:" in the captions
+\setbeamertemplate{caption}{\tiny\insertcaption}
+\setbeamertemplate{caption label separator}{}
+
+%%
+%% create counters
+
+% counter to display progressbar (0 - don't show, 1 - show)
+\newcounter{showProgressBar}
+\setcounter{showProgressBar}{1}
+\newcounter{showSecProgressBar}
+\setcounter{showSecProgressBar}{1}
+\newcount\secbarcount
+
+%%
+%% modify the beamer templates
+
+% draw frametitle (the combination of \nointerlineskip and \begin{beamercolorbox}[wd=\paperwidth]... is used to get the TikZ picture in the upper left corner of the frame
+\setbeamertemplate{frametitle}
+{\nointerlineskip%
+\begin{beamercolorbox}[wd=\paperwidth]{}
+    %
+    % draw frametitle
+    \tikzset{external/export next=false}%
+    \begin{tikzpicture}%[trim right = 0.5\slidewidth]
+    
+%    % draw subtitle if it exists and set boundary box
+%    \ifx\insertframesubtitle\empty
+%        \useasboundingbox (0cm, 0cm) rectangle (\slidewidth,-\titleheight-\progheight);
+%    \else
+%        \useasboundingbox (0cm, 0cm) rectangle (\slidewidth,-\titleheight-\exsubtitle);
+%        \node[anchor=text] at (1.1\extitle,-\titleheight-\exsubtitle) {\usebeamerstyle{framesubtitle}\strut\insertframesubtitle\strut};
+%    \fi
+    
+    % draw box at top
+    \fill[color=colorSec] (0, 0) rectangle(\slidewidth,-\titleheight);
+    
+    % draw frametitle
+    \node[anchor=text] at (1.1\exframetitle,-0.5\frametitleheight-0.4\exframetitle) {\usebeamerstyle{frametitle}\insertframetitle};
+    \node[anchor=east, inner sep=0pt] at (\slidewidth-0.0\frametitleheight,-0.5\titleheight) {\includegraphics[height=1\frametitleheight]{./logos/imcs_logo_white.pdf}};
+    
+    \draw[fill=colorMain,draw=none] (0cm, -\frametitleheight-\progheight) rectangle (\slidewidth,-\frametitleheight);
+
+\end{tikzpicture}
+\end{beamercolorbox}
+}
+
+%% Customize the footline
+\setbeamertemplate{footline}{
+
+    % draw bottom bar with TikZ
+    \tikzset{external/export next=false}
+    \begin{tikzpicture}
+        
+        % set bounding box
+        \useasboundingbox (0cm, 0cm) rectangle (\slidewidth,\footbarheight+\progheight);
+        
+        % draw bottom bar
+	    \draw[color=unibwGr,fill=unibwGr](0,-1cm) rectangle (\paperwidth,0.28cm);%
+        \draw[color=unibwOr,fill=unibwOr](0,0.28cm) rectangle (\paperwidth,0.3cm);%
+        
+        % draw title and section
+        \node[anchor=base west] at (0.1cm,0.3\footbarheight) {\usebeamerstyle{footline}\insertshortauthor{}~~\textbf{|}~~\insertshortinstitute
+        };
+        
+        % draw author and date
+        \node[anchor=base east] at (\slidewidth-0.1cm,0.3\footbarheight) {
+            \usebeamerstyle{footline}\mdseries{\insertframenumber}
+        };
+\end{tikzpicture}
+}
+
+%% Draw titlepage on background
+\setbeamertemplate{background}{%
+\tikzset{external/export next=false}%
+	\begin{tikzpicture}
+        % only draw something for titlepage
+        \ifnum\thepage=1\relax
+        
+            % set up the entire slide as the canvas
+            \useasboundingbox (0,0) rectangle (\slidewidth,\slideheight);
+                       
+                       \node[anchor=north west, inner sep=0pt] at (0.1cm,\slideheight-0.25cm)
+                       {\begin{minipage}{0.6\slidewidth}
+                       	\color{colorSec}
+	                     \bfseries \small \insertevent\vspace{0.5em}\\
+                       	\mdseries \scriptsize \inserteventdetails
+                       	\end{minipage}
+                       };      
+            
+            \node[anchor=north east, inner sep=10pt] at (\slidewidth,\slideheight) {\includegraphics[height=0.8cm]{./logos/unibw_logo.jpg}};
+            
+            % draw box for title
+            \fill[color=colorMain] (0, \slideheight-1.7cm) rectangle(\slidewidth,\slideheight-3.3cm);
+            
+            % draw title
+            \node[inner sep=5pt, inner ysep=5pt,align=center,text width=\linewidth] at (0.5\slidewidth, \slideheight-2.5cm) {\usebeamerstyle{title}\inserttitle};
+
+            % draw subtitle
+            \ifx\insertsubtitle\empty
+              \vspace{1\exsubtitle}
+			\else
+			  \fill[color=colorSec] (0, \slideheight-3.3cm) rectangle(\slidewidth,\slideheight-3.3cm-\exsubtitle);
+			  \node at (0.5\slidewidth,\slideheight-3.3cm-0.5\exsubtitle) {\usebeamerstyle{subtitle}\insertsubtitle};
+			\fi
+%			{
+%%	            \temp=0cm \addtolength{\temp}{\slidewidth} \addtolength{\temp}{-10pt}
+%%    		        % draw box for subtitle
+%%    	    		    \fill[color=colorSec] (0, \slideheight-3.3cm) rectangle(\slidewidth,\slideheight-3.9cm);
+%
+%            		\node[anchor=north, text width=\temp] at (0.5\slidewidth, 0.6\slideheight)  
+%                {
+%                    \begin{minipage}{\slidewidth}
+%
+%                    % check if subsection exists
+%%                    \ifx\insertsubtitle\empty
+%%                        \vspace{1\exsubtitle}
+%%                    \else
+%%                        \begin{minipage}{\temp}
+%                        \usebeamerstyle{subtitle}\insertsubtitle
+%                        \end{minipage}
+%%                    \fi
+%
+%                    \end{minipage}
+%                };
+%                }
+%                \fi
+                
+                \node at (0.5\slidewidth,0.42\slideheight) {\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par};
+
+			   % Graphic elements at the bottom
+                \draw[fill=colorMain,draw=none] (0cm, 1.8cm+\progheight) rectangle (\slidewidth,0); 
+                \draw[fill=colorSec,draw=none] (0cm, 1.8cm) rectangle (\slidewidth,0);                         
+                \node[anchor=east, inner sep=0pt] at (\slidewidth,\titleheight) {\includegraphics[height=2\titleheight]{./logos/imcs_logo_white.pdf}};
+                                
+            % Authors and affiliations
+            \node[anchor=south west, inner sep=5pt, inner ysep=5pt] at (0\slidewidth, 0.\slideheight)  
+                {\begin{minipage}{0.8\slidewidth}
+                \usebeamerstyle{author} \begin{flushleft}\insertauthor\end{flushleft}
+                	\vspace{-1.5em}
+				\makeatletter
+				\def\beamer@andinst{\\[0.2em]}
+				\makeatother
+                \usebeamerstyle{institute}\begin{flushleft}\insertinstitute\end{flushleft}
+                \end{minipage}};     
+        \fi
+    \end{tikzpicture}
+}
+
+%% Disable the control buttoms
+\setbeamertemplate{navigation symbols}{}
+
+% disable titlepage
+\setbeamertemplate{title page}{}
+
+%% Customize the title page
+%\setbeamertemplate{title page}
+%{
+%	\tikzset{external/export next=false}
+%    \begin{tikzpicture}[remember picture,overlay]%
+%
+%    \node[xshift=-3.5cm,left] at (\paperwidth,0.0) { \pgftext{\includegraphics[height=0.9cm]{logos/unibw_logo.jpg}}};%
+%    \node[minimum width=1.2\paperwidth,minimum height=2cm,fill=colorMain] (rect) at (.5\paperwidth,0) {\pgftext{\usebeamerstyle{title}\inserttitle}};    
+%   
+%    \end{tikzpicture}%
+%
+%%  \usebeamerfont{title}\inserttitle\par
+%%  \usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par
+%%  \bigskip
+%%  \usebeamerfont{author}\insertauthor\par
+%%  \usebeamerfont{institute}\insertinstitute\par
+%%  \usebeamerfont{date}\insertdate\par
+%%  \usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par
+%%  \begin{center}
+%%  \color{unibwGr}{CMGM}
+%%  \end{center}
+%}
+
+%%
+%% add section titles
+\AtBeginSection{\frame[c,plain,noframenumbering]{\sectionpage}}
+\setbeamertemplate{section page}
+{ 
+    % sets distance from left paperedge to text
+    \textmargin=\beamer@leftmargin
+    \tikzset{external/export next=false}
+    \begin{tikzpicture}[trim left=\textmargin] % trim in order to fill out the full page
+
+		% set up the entire slide as the canvas
+		\useasboundingbox (0,0) rectangle(0.5\slidewidth,\slideheight);
+        
+        % draw rectangle
+		\fill[color=colorMain] (0cm, 0.5\slideheight-1cm) rectangle(\slidewidth, 0.5\slideheight+1cm);
+		
+        % draw text
+        \node[text width=\the\paperwidth-1cm,align=center] at (0.5\slidewidth, 0.5\slideheight) {\usebeamerstyle{frametitle}{\insertsection}};
+        
+        %% generate value for progressbar, if show is 0 then the bar is not shown
+        %\progressbarwidth=\slidewidth
+        %\divide\progressbarwidth by \inserttotalframenumber
+        
+        \ifnum \value{showSecProgressBar}>0\relax
+            %\temp=\progressbarwidth
+            %\multiply\progressbarwidth by \insertframenumber
+            %\addtolength{\progressbarwidth}{\temp} % add the length of one frame to the progressbar -> the bar in the section frame is as far as the first frame of the section
+            %\drawprogress{0.5\slideheight-1cm}
+            
+            \secbarspace=0.05cm
+            \secbarinc=\slidewidth
+            \addtolength{\secbarinc}{\secbarspace}
+            \regtotcounter{section}
+            \divide\secbarinc by \totvalue{section}
+            \secbarcount=\numexpr\thesection
+            \advance\secbarcount by 1
+            
+            \foreach \i in {1,...,\numexpr\thesection}{
+                \draw[fill=colorSec,draw=none] ({(\i-1)*\secbarinc},0.5\slideheight-1cm-\secbarspace) rectangle({-0.5\secbarspace+\i*\secbarinc-0.5\secbarspace},0.5\slideheight-1cm-\secbarspace-0.3cm);
+            }
+            
+            \ifnum \numexpr\thesection<\totvalue{section}\relax
+                \foreach \i in {\secbarcount,...,\totvalue{section}}{
+                    \draw[fill=colorSec,draw=none] ({(\i-1)*\secbarinc},0.5\slideheight-1cm-\secbarspace) rectangle({-0.5\secbarspace+\i*\secbarinc-0.5\secbarspace},0.5\slideheight-1cm-\secbarspace-0.3cm);
+                }
+            \fi
+            
+        \fi
+	\end{tikzpicture}
+}
+
+
+%%
+%% commands
+
+% use beamerstyle
+\newcommand{\usebeamerstyle}[1]{\usebeamerfont{#1}\usebeamercolor[fg]{#1}}
+
+% draw progressline
+\newcommand{\drawprogress}[1]{
+    \draw[fill=colorGrey,draw=none] (\progressbarwidth,#1) rectangle(\slidewidth,\progheight+#1);
+    \draw[fill=colorSec!20,draw=none] (0cm,#1) rectangle(\progressbarwidth,\progheight+#1);
+}
+
+
+
+\defbeamertemplate{block begin}{notitle}
+{
+  \usebeamerfont{block body}%
+  \begin{beamercolorbox}[colsep*=.75ex,vmode]{block body}%
+    \ifbeamercolorempty[bg]{block body}{\vskip-.25ex}{\vskip-.75ex}\vbox{}%
+}
+
+\newenvironment<>{emptyblock}
+  {\setbeamertemplate{block begin}[notitle]
+  \begin{block}{#1}}
+  {\end{block}}
+
+
+\newcommand{\itembar}[4]{
+\begin{tikzpicture}%
+%\fill[shading=axis,bottom color=beamer@TUMblue!30,top color=beamer@TUMdarkblue,shading angle=90](0.0,-0.3) rectangle (#4,0.3);%
+\fill[color=unibwOr](0.0,-0.3) rectangle (#4,0.3);%
+\fill [color=unibwGr](0,0) circle (0.3);%
+\fill [color=unibwGr](0,-0.3) rectangle (#3,0.3);%
+\draw (0.6cm,0) node[right=-0.8cm, minimum height=0.3cm, minimum width=0.3cm] {\textbf{\color{white}{#1}}}; %
+\draw (#3+0.8cm,0) node[right=-0.8cm, minimum height=0.3cm, minimum width=0.3cm] {\color{white}{#2}}; %
+\end{tikzpicture}%
+}

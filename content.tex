@@ -1,0 +1,230 @@
+% !TEX root = main.tex
+
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\ddash}{-{}-}
+\newcommand{\eg}{e.g.}
+\newcommand{\ie}{i.e.}
+\newcommand{\vs}{vs.}
+
+\graphicspath{{fig/}, {images/}}
+
+\title{Version control with \texttt{git} --- why? what? how?}
+%\subtitle{Just a subtitle}
+\date{February 17, 2022}
+\author[Matthias Mayr]{Matthias Mayr \inst{1,2}}
+\institute[Universität der Bundeswehr München]{
+\inst{1} Institute for Mathematics and Computer-Based Simulation, Universität der Bundeswehr München
+\and
+\inst{2} Data Science \& Computing Lab, Universität der Bundeswehr München
+}
+\event{CompSim@IMCS Group Meeting}
+\eventdetails{Institute for Mathematics and Computer-Based Simulation\\Department for Civil Engineering and Environmental Sciences\\February 17, 2022}
+\titlegraphic{\centering\includegraphics[width=0.28\textwidth]{images/xkcd_git.png}}
+
+% All Baci-related info is wrapped into this command, so that it can be dumped to nowhere for non-Baci talks.
+%\newcommand{\baci}[1]{#1}
+\newcommand{\baci}[1]{}
+
+\usepackage[backend=bibtex]{biblatex}
+\bibliography{bibliography}
+
+%\usepackage{bibentry}
+%\nobibliography*
+
+\begin{document}
+
+\begin{frame}[plain,noframenumbering]
+\titlepage
+\end{frame}
+
+\begin{frame}{Disclaimer}
+\begin{itemize}
+\item This is just a quick overview, not a tutorial.
+\item Best way to learn \code{git}: use it every day!
+\item For help, consult either the internet or your colleagues.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Agenda}
+\tableofcontents
+\end{frame}
+
+\section{Some thoughts on using \texttt{git}}
+\begin{frame}{Why \code{git} for day-to-day software development?}
+\begin{itemize}
+\item \structure{Independent} development by multiple developers
+\item Always one branch ready to deploy: \code{master} or \code{main}
+\item Share work among developers for collaborative software development
+\end{itemize}
+
+\begin{block}{\code{git} for source code, but for what else?}
+\code{git} can be used for any \code{ASCII}-based files, {\eg} \LaTeX, Markdown, ...
+\end{block}
+\end{frame}
+
+\begin{frame}{What should I keep in mind when using \code{git}?}
+\begin{itemize}
+\item Write \structure{meaningful commit messages}\footnote{\scriptsize{\url{https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html}}}
+\begin{itemize}
+\item First line: capitalized, short commit summary (max. 50 characters)
+\item Second line: empty
+\item Body (w/ max. 72 characters per line) to describe the reasoning behind the proposed changes (``What \& Why?'').
+\begin{itemize}
+\item Use imperative.
+\item Focus on the ``What \& Why?''. The ``How?'' how can be seen from the proposed changes.
+\item Use empty lines to separate paragraphs.
+\item Maybe include reference to issue tracker or merge/pull requests.
+\end{itemize}
+\end{itemize}
+\item Each commit should compile w/o errors.
+\item Aim for a \structure{clean} history
+\end{itemize}
+\end{frame}
+
+\section{The concept of \code{git}}
+
+\begin{frame}{Working with branches}
+\begin{columns}
+\column{0.7\textwidth}
+\begin{itemize}
+\item The \code{master} or \code{main} branch is always clean, stable, and deployable.
+\item Actual development work happens on \structure{feature branches}.
+\item Create a new branch via \code{git checkout -b <branchName>}
+\item Do all your work and commits on this feature branch \code{<branchName>}
+\item When done, bring changes to the \code{master} or \code{main} branch
+\end{itemize}
+\column{0.29\textwidth}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Distributed version control}
+\begin{itemize}
+\item Every developer works with his/her own local clone.
+\item A remote instance serves as the central base line repository for everyone.
+\end{itemize}
+
+\begin{columns}
+\column{0.49\textwidth}
+\textbf{Remote:}
+\column{0.49\textwidth}
+\textbf{Local clone:}
+\end{columns}
+\vfill~
+\end{frame}
+
+\section{Basic commands in daily practice}
+
+\begin{frame}{Creating a commit}
+\begin{enumerate}
+\item Adding changes to the \structure{staging area}:
+\begin{itemize}
+\item \code{git add <path/to/file>}
+\item \code{git add {\ddash}patch} or \code{git add -p}
+\item \code{git add {\ddash}update} or \code{git add -u}
+\end{itemize}
+\item Creating a \structure{commit}:
+\begin{itemize}
+\item \code{git commit}
+\item \code{git commit {\ddash}message=<msg>} or \code{git commit -m <msg>}
+\end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Updating my clone w/ changes from \code{remote}}
+\begin{block}{\code{git fetch}}
+Download changes, but do not change the local state.
+\end{block}
+\begin{block}{\code{git rebase <otherBranch>}}
+Replay my local changes of current branch on top of changes in \code{<otherBranch>}
+\end{block}
+\begin{block}{\code{git pull}}
+Update local state w/ remote changes (fast forward or merge commit).
+\end{block}
+\begin{block}{\code{git pull {\ddash}rebase}}
+Get remote changes and replay my local changes of current branch on top of remote changes (``linear history'').
+\end{block}
+\end{frame}
+
+\begin{frame}{Publishing local changes to the \code{remote}}
+\begin{block}{\code{git push <remote> <branch>}}
+Push changes in branch \code{<branch>} to remote location \code{<remote>}.
+\end{block}
+\begin{block}{\code{git push}}
+Push changes in current branch to default remote location.
+\end{block}
+\end{frame}
+
+\begin{frame}{Temporarily storing/hiding local changes}
+
+\begin{itemize}
+\item A \structure{stash} is a scratch memory to parking-lot local changes of a branch w/o committing them.
+\item Useful when switching branches while not ready for an actual commit.
+\end{itemize}
+\begin{block}{\code{git stash list}}
+Inspect the list of currently stored stashes
+\end{block}
+\begin{block}{\code{git stash show}}
+Inspect the content of a stash entry.
+\end{block}
+\begin{block}{\code{git stash}}
+Save changes on current branch to a scratch pad memory, {\ie} the stash.
+\end{block}
+\begin{block}{\code{git stash pop}}
+Extract and apply the most recent stash to the current branch.
+Use \code{git stash stash@\{<stashID>\}} to apply stash item \code{<stashID>}.
+\end{block}
+\end{frame}
+
+\section{Advanced \code{git} commands to rewrite history}
+
+\begin{frame}{Version control {\vs} rewriting history}
+\begin{alertblock}{Use with caution!}
+These commands re-write existing source code history.
+\end{alertblock}
+
+\textbf{Technical background}
+\begin{itemize}
+\item \code{git} identifies a commit via its \code{SHA1}, {\eg} \code{ea3f75041f23c3706110a3f3375e229ba51e6a23}.
+\item The \code{SHA1} is computed based on a commit's meta information (date, time, parent commit, ...) and its content.
+\item If the \code{SHA1} changes, \code{git} interprets this as a new commit (incompatible to existing commits). \structure{Conflicts are likely to occur.}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Appending more chagnes}
+\begin{block}{\code{git commit {\ddash}amend}}
+Append more changes to an existing commit.
+\end{block}
+\end{frame}
+
+\begin{frame}{Rewriting history}
+\begin{block}{\code{git rebase {\ddash}interactive} or \code{git rebase -i}}
+Rewrite history in local clone ({\eg} re-order or squash commits, modify commits, modify commit messages, ...).
+\end{block}
+\begin{block}{\code{git rebase {\ddash}continue}}
+Continue a rebase operation after resolving conflicts.
+\end{block}
+\begin{block}{\code{git rebase {\ddash}abort}}
+Abort an ongoing rebase operation and return to the state prior to starting the rebase.
+\end{block}
+\textbf{Remarks:}
+\begin{itemize}
+\item It is safe and recommended to rebase \structure{if and only if} your changes have no been published to remote, yet.
+\item Rebasing after publication of your changes requires extra caution!
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\begin{block}{\code{git push {\ddash}force} or \code{git push -f}}
+Push to remote and \structure{forcefully overwrite} its state with incoming changes.
+\end{block}
+\textbf{Remarks:}
+\begin{itemize}
+\item Be careful when co-developing with colleagues on a branch in order to not accidentally overwrite their changes.
+\end{itemize}
+\end{frame}
+
+% Bibliography
+%\input{literature}
+
+\end{document}

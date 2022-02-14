@@ -1,0 +1,75 @@
+\documentclass[10pt,
+hyperref={colorlinks=false, urlcolor=unibwGr}
+%, hidden
+]{beamer}
+
+\usepackage{lmodern}
+%\usefonttheme[onlymath]{serif}
+
+\usetheme{imcs}
+%\setbeamertemplate{background}[grid][step=10]
+ 
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+%\usepackage[german]{babel}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{url}
+\usepackage[thinspace,amssymb,thinqspace,thinspace]{SIunits}
+
+\usepackage[ruled]{algorithm2e}
+
+\usepackage{booktabs}
+\usepackage[scale=2]{ccicons}
+
+\usepackage{pgfpages} % for printing handout notes
+
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+
+\usepackage{xspace}
+
+\usepackage{multimedia}
+
+\usepackage{tikz}
+\usepgfplotslibrary{groupplots}
+\usetikzlibrary{spy}
+\usetikzlibrary{positioning}
+\usetikzlibrary{trees}
+%\usetikzlibrary{shadows}
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{arrows,shapes}
+\usetikzlibrary{chains}
+\usetikzlibrary{calc}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{decorations}
+\usetikzlibrary{pgfplots.groupplots}
+\usetikzlibrary{pgfplots.statistics}
+\usepackage{pgfplotstable}
+\usepackage{tikz-3dplot}
+\pgfplotsset{compat=newest}
+
+\pgfplotsset{
+compat=1.13, % version compability
+tick label style={font=\footnotesize}, % size of the tick labels
+}
+
+% for arrows
+\usetikzlibrary{decorations.markings}
+\tikzstyle{arrow} = [thick,->,>=stealth]
+
+\usepgfplotslibrary{external}
+
+\tikzexternalize
+
+\tikzsetexternalprefix{plots/_pfgplots_images/}
+%\tikzset{external/mode=list and make}
+\pgfplotsset{invoke before crossref tikzpicture={\tikzexternaldisable},invoke after crossref tikzpicture={\tikzexternalenable}}
+\tikzset{external/export=false}
+
+
+\input{content}
