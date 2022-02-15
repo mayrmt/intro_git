@@ -96,13 +96,73 @@
 \begin{itemize}
 \item The \code{main} branch is always clean, stable, and deployable.
 \item Actual development work happens on \structure{feature branches}.
-\item Create a new branch via \code{git checkout -b <branchName>}
-\item Do all your work and commits on this feature branch \code{<branchName>}
-\item When done, bring changes to the \code{main} branch
+\item<2-> Create a new branch via \code{git checkout -b <branchName>}
+\item<3-> Do all your work and commits on this feature branch \code{<branchName>}
+\item<4-> When done, bring changes to the \code{main} branch
 \end{itemize}
 \column{0.49\textwidth}
 \begin{block}{Branches}
-\vspace{17em}
+\centering
+\begin{tikzpicture}[
+scale=0.8,
+node distance=0.7cm,
+nodestyle/.style={draw,thick,circle},
+edgestyle/.style={thick}
+]
+\node[text=colorMain!50,rotate=90] at (1.0cm,0.0cm) {\code{main}};
+\only<1-3>{
+\draw[thick,dashed,fill=colorMain!50,rounded corners=3pt] (-0.55cm,-0.55cm) rectangle (0.55cm,2.3cm);
+}
+\only<4>{
+\draw[thick,dashed,fill=colorMain!50,rounded corners=3pt] (-0.55cm,-0.55cm) rectangle (0.55cm,4.0cm);
+}
+\only<5>{
+\draw[thick,dashed,fill=colorMain!50,rounded corners=3pt] (-0.55cm,-0.55cm) rectangle (0.55cm,5.7cm);
+}
+
+\uncover<2->{
+\node[text=colorSec!50,right,rotate=90] at (2.2cm,2.2cm) {\code{<branchName>}};
+}
+\only<2>{
+\draw[thick,dashed,fill=colorSec!50,rounded corners=3pt] (0.65cm,2.4cm) rectangle (1.75cm,3.4cm);
+}
+\only<3->{
+\draw[thick,dashed,fill=colorSec!50,rounded corners=3pt] (0.65cm,2.4cm) rectangle (1.75cm,7.0cm);
+}
+
+\node[nodestyle] (A) at (0,0) {A};  
+\node[nodestyle,above=of A] (B) {B};
+\draw[edgestyle] (A) -- ++(0,-0.7cm);
+\draw[edgestyle] (A) -- (B);
+
+\uncover<2->{
+\node[nodestyle,above right=of B] (F) {F};
+\draw[edgestyle] (B) -- (F);
+}
+
+\uncover<3->{
+\node[nodestyle,above=of F] (G) {G};
+\node[nodestyle,above=of G] (H) {H};
+\draw[edgestyle] (F) -- (G);
+\draw[edgestyle] (G) -- (H);
+}
+
+\uncover<4->{
+\node[nodestyle,above=of B,fill=colorTert] (C) {C};
+\node[nodestyle,below left=of C] (Z) {Z};
+\node[nodestyle,below=of Z] (Y) {Y};
+\draw[edgestyle] (Y) -- ++(0,-0.7cm);
+\draw[edgestyle] (Y) -- (Z);
+\draw[edgestyle] (Z) -- (C);
+\draw[edgestyle] (B) -- (C);
+}
+
+\uncover<5->{
+\node[nodestyle,above=of C,fill=colorTert] (D) {D};
+\draw[edgestyle] (C) -- (D);
+\draw[edgestyle] (D) -- ++(-0.7cm,-0.7cm);
+}
+\end{tikzpicture}
 \end{block}
 \end{columns}
 \end{frame}
