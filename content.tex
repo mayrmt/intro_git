@@ -320,7 +320,11 @@ Switch to branch \code{<branchName>}.
 \end{block}
 \end{frame}
 
-\begin{frame}{Creating a commit}
+\begin{frame}{Making changes}
+\begin{block}{\code{git checkout <path/to/file>}}
+Discard changes in \code{<path/to/file>} and replace its content with the state from the last commit.
+\end{block}
+\begin{block}{Creating a commit}
 \begin{enumerate}
 \item Make and test your changes.
 \item Add changes to the \structure{staging area}:
@@ -335,6 +339,7 @@ Switch to branch \code{<branchName>}.
 \item \code{git commit {\ddash}message=<msg>} or \code{git commit -m <msg>}
 \end{itemize}
 \end{enumerate}
+\end{block}
 \end{frame}
 
 \begin{frame}{Updating my clone w/ changes from \code{remote}}
