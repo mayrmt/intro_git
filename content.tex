@@ -173,7 +173,7 @@ Push changes in current branch to default remote location.
 \item \code{main} on hosting services is usually protected and cannot be pushed into.
 \item To bring changes into the global \code{main}:
 \begin{enumerate}
-\item Push your branch to the \code{remote}.
+\item Push your branch to \code{remote}.
 \item Create a \structure{merge request (MR)} or \structure{pull request (PR)}.
 \begin{itemize}
 \item Describe the context and motivation as well as the bigger picture of the proposed changes in the MR/PR description.
@@ -238,7 +238,7 @@ Abort an ongoing rebase operation and return to the state prior to starting the 
 \end{block}
 \textbf{Remarks:}
 \begin{itemize}
-\item When collaborating, it is safe and recommended to rebase \structure{if and only if} your changes have not been published to remote, yet.
+\item When collaborating, it is safe and recommended to rebase \structure{if and only if} your changes have not been published to \code{remote}, yet.
 \item Rebasing after publication of your changes requires extra caution!
 \end{itemize}
 
@@ -246,7 +246,7 @@ Abort an ongoing rebase operation and return to the state prior to starting the 
 
 \begin{frame}
 \begin{block}{\code{git push {\ddash}force} or \code{git push -f}}
-Push to remote and \structure{forcefully overwrite} its state with incoming changes.
+Push to \code{remote} and \structure{forcefully overwrite} its state with incoming changes.
 \end{block}
 \textbf{Remarks:}
 \begin{itemize}
