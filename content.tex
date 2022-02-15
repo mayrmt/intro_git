@@ -159,6 +159,22 @@ Push changes in current branch to default remote location.
 \end{block}
 \end{frame}
 
+\begin{frame}{Merging changes into global \code{main}}
+\begin{itemize}
+\item \code{main} on hosting services is usually protected and cannot be pushed into.
+\item To bring changes into the global \code{main}:
+\begin{enumerate}
+\item Push your branch to the \code{remote}.
+\item Create a \structure{merge request (MR)} or \structure{pull request (PR)}.
+\begin{itemize}
+\item Describe the context and motivation as well as the bigger picture of the proposed changes in the MR/PR description.
+\item While writing the description, provide context and details aiding the review process.
+\end{itemize}
+\item Merge to \code{main} via web interface once tested and approved.
+\end{enumerate}
+\end{itemize}
+\end{frame}
+
 \begin{frame}{Temporarily storing/hiding local changes}
 
 \begin{itemize}
