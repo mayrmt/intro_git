@@ -53,8 +53,13 @@
 \begin{frame}{Why \code{git} for day-to-day software development?}
 \begin{itemize}
 \item \structure{Independent} development by multiple developers
-\item Always one branch ready to deploy: \code{master} or \code{main}
+\item Always one branch ready to deploy: \code{main}
 \item Share work among developers for collaborative software development
+\end{itemize}
+
+\textbf{Remarks:}
+\begin{itemize}
+\item Previously, the default name of the main branch was called \code{master}. Remember: it is just a name, so one can easily rename it, {\eg} to \code{main}.
 \end{itemize}
 
 \begin{block}{\code{git} for source code, but for what else?}
@@ -87,11 +92,11 @@
 \begin{columns}
 \column{0.7\textwidth}
 \begin{itemize}
-\item The \code{master} or \code{main} branch is always clean, stable, and deployable.
+\item The \code{main} branch is always clean, stable, and deployable.
 \item Actual development work happens on \structure{feature branches}.
 \item Create a new branch via \code{git checkout -b <branchName>}
 \item Do all your work and commits on this feature branch \code{<branchName>}
-\item When done, bring changes to the \code{master} or \code{main} branch
+\item When done, bring changes to the \code{main} branch
 \end{itemize}
 \column{0.29\textwidth}
 \end{columns}
