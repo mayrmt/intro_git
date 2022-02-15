@@ -188,6 +188,24 @@ edgestyle/.style={thick}
 
 \section{Basic commands in daily practice}
 
+\begin{frame}{Getting the code}
+\begin{block}{\code{git clone <remoteURL>}}
+Clone the repository form \code{<remoteURL>} to your machine and point the \code{remote} to the \code{<remoteURL>}.
+\end{block}
+\end{frame}
+
+\begin{frame}{Inspecting the repository}
+\begin{block}{\code{git status}}
+Summarize the status of the local working directory. In particular, list staged, modified and untracked files.
+\end{block}
+\begin{block}{\code{git diff}}
+Print the difference between the current status and the last commit.
+\end{block}
+\begin{block}{\code{git log}}
+Show the commit history as well as indicators of the synchronization with \code{remote}.
+\end{block}
+\end{frame}
+
 \begin{frame}{Creating a commit}
 \begin{enumerate}
 \item Adding changes to the \structure{staging area}:
