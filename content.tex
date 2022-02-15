@@ -136,7 +136,7 @@ edgestyle/.style={thick}
 \draw[thick,dashed,fill=colorSec!50,rounded corners=3pt] (0.65cm,2.4cm) rectangle (1.75cm,7.0cm);
 }
 
-\node[nodestyle] (A) at (0,0) {A};  
+\node[nodestyle] (A) at (0,0) {A};
 \node[nodestyle,above=of A] (B) {B};
 \draw[edgestyle] (A) -- ++(0,-0.7cm);
 \draw[edgestyle] (A) -- (B);
@@ -176,20 +176,108 @@ edgestyle/.style={thick}
 \begin{frame}{Distributed version control}
 \begin{itemize}
 \item Every developer works with his/her own local clone.
-\item A remote instance serves as the central base line repository for everyone.
-\item Remote instances are often hosted as web servers, {\eg} \url{www.github.com} or \url{www.gitlab.com}
+\item Remote instance = central base line repository for everyone.
+\item Remote instances are often hosted by web services, {\eg} \url{www.github.com} or \url{www.gitlab.com}
 \end{itemize}
 
 \begin{columns}
 \column{0.49\textwidth}
-\begin{block}{Remote}
-\vspace{14em}
-\end{block}
+\textbf{Remote:}
 \column{0.49\textwidth}
-\begin{block}{Local clone}
-\vspace{14em}
-\end{block}
+\textbf{Local clone:}
 \end{columns}
+
+\begin{center}
+\begin{tikzpicture}[
+scale=0.5,
+node distance=0.2cm,
+font=\scriptsize,
+nodestyle/.style={draw,thick,circle},
+edgestyle/.style={thick}
+]
+\def\xShift{1.2\textwidth}
+
+\begin{scope} % remote
+\onslide<2->{
+\node[nodestyle] (A) at (0,0) {A};
+\node[nodestyle,above=of A] (B) {B};
+\draw[edgestyle] (A) -- ++(0,-1.0cm);
+\draw[edgestyle] (A) -- (B);
+}
+
+\onslide<5->{
+\node[nodestyle,above=of B,fill=colorTert] (C) {C};
+\node[nodestyle,below left=of C] (Z) {Z};
+\node[nodestyle,below=of Z] (Y) {Y};
+\draw[edgestyle] (Y) -- ++(0,-0.7cm);
+\draw[edgestyle] (Y) -- (Z);
+\draw[edgestyle] (Z) -- (C);
+\draw[edgestyle] (B) -- (C);
+}
+
+\onslide<7->{
+\node[nodestyle,above right=of B] (F) {F};
+\node[nodestyle,above=of F] (G) {G};
+\node[nodestyle,above=of G] (H) {H};
+\draw[edgestyle] (B) -- (F);
+\draw[edgestyle] (F) -- (G);
+\draw[edgestyle] (G) -- (H);
+}
+
+\onslide<8->{
+\node[nodestyle,above left=of H,fill=colorTert] (J) {J};
+\draw[edgestyle] (C) -- (J);
+\draw[edgestyle] (H) -- (J);
+\node[right=of J,color=colorTert,align=left] {Merge Request /\\Pull Request};
+}
+
+\end{scope}
+
+\begin{scope}[xshift=\xShift] % local clone
+\onslide<3->{
+\node[nodestyle] (A) at (0,0) {A};  
+\node[nodestyle,above=of A] (B) {B};
+\draw[edgestyle] (A) -- ++(0,-1.0cm);
+\draw[edgestyle] (A) -- (B);
+}
+
+\onslide<4->{
+\node[nodestyle,above right=of B] (F) {F};
+\node[nodestyle,above=of F] (G) {G};
+\node[nodestyle,above=of G] (H) {H};
+\draw[edgestyle] (B) -- (F);
+\draw[edgestyle] (F) -- (G);
+\draw[edgestyle] (G) -- (H);
+}
+
+\onslide<6->{
+\node[nodestyle,above=of B,fill=colorTert] (C) {C};
+\node[nodestyle,below left=of C] (Z) {Z};
+\node[nodestyle,below=of Z] (Y) {Y};
+\draw[edgestyle] (Y) -- ++(0,-0.7cm);
+\draw[edgestyle] (Y) -- (Z);
+\draw[edgestyle] (Z) -- (C);
+\draw[edgestyle] (B) -- (C);
+}
+\end{scope}
+
+\begin{scope}[yshift=-0.5cm]
+\onslide<3>{
+\draw [ultra thick, color=colorSec, -Latex] (1cm,0) .. controls (0.3*\xShift,-2.0cm) and (0.7*\xShift,-2.0cm) .. (\xShift-1cm,0);
+\node[below,color=colorSec] at (0.5*\xShift,-2.0cm) {\code{git clone <remoteURL>}};
+}
+\onslide<6>{
+\draw [ultra thick, color=colorSec, -Latex] (1cm,0) .. controls (0.3*\xShift,-2.0cm) and (0.7*\xShift,-2.0cm) .. (\xShift-1cm,0);
+\node[below,color=colorSec] at (0.5*\xShift,-2.0cm) {\code{git fetch} / \code{git pull}};
+}
+\onslide<7>{
+\draw [ultra thick, color=colorSec, Latex-] (1cm,0) .. controls (0.3*\xShift,-2.0cm) and (0.7*\xShift,-2.0cm) .. (\xShift-1cm,0);
+\node[below,color=colorSec] at (0.5*\xShift,-2.0cm) {\code{git push}};
+}
+\end{scope}
+\end{tikzpicture}
+\end{center}
+
 \end{frame}
 
 \section{Basic commands in daily practice}
